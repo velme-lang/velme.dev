@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Velme</title>
+<meta name="description" content="Velme is an intent-driven programming language: you write typed goals and checks, an LLM proposes the code, and a deterministic compiler decides whether to accept it.">
+<meta property="og:title" content="Velme">
+<meta property="og:description" content="Write the goal. The AI proposes the code. A deterministic compiler decides.">
+<meta property="og:url" content="https://velme.dev/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E6B72'/%3E%3Cpath d='M9 9l7 15 7-15' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F4F7F8; --panel:#FFFFFF; --ink:#16222A; --muted:#566874; --line:#D5DEE3;
+  --accent:#0E6B72; --accent-soft:#DCEFF0; --code-bg:#16222A; --code-ink:#E3ECF0; --code-dim:#95A7B2; --code-key:#62C3C8; --code-str:#E8B062;
+  --display:"Schibsted Grotesk",system-ui,sans-serif;
+  --body:"Source Serif 4",Georgia,serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E151A; --panel:#152027; --ink:#E3ECF0; --muted:#95A7B2; --line:#27363F;
+    --accent:#62C3C8; --accent-soft:#16363A; --code-bg:#152027;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E151A; --panel:#152027; --ink:#E3ECF0; --muted:#95A7B2; --line:#27363F;
+  --accent:#62C3C8; --accent-soft:#16363A; --code-bg:#152027;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:18px/1.6 var(--body)}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:56px 16px 72px;display:grid;gap:64px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:3rem;font-weight:700;letter-spacing:-.01em}
+h2{font-size:1.35rem;font-weight:700}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0}
+.eyebrow{font:500 .75rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+header{display:grid;gap:18px}
+.lede{font-size:1.25rem;max-width:34ch}
+.sub{color:var(--muted);max-width:60ch}
+pre{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:20px 22px;overflow-x:auto;font:15px/1.6 var(--mono);border:1px solid var(--line)}
+.k{color:var(--code-key)} .s{color:var(--code-str)} .d{color:var(--code-dim)}
+section{display:grid;gap:20px}
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:n}
+.flow li{border-top:2px solid var(--accent);padding-top:12px;display:grid;gap:6px;align-content:start;counter-increment:n}
+.flow li::before{content:counter(n);font:500 .8rem var(--mono);color:var(--accent)}
+.flow p{color:var(--muted);font-size:.95rem}
+.status{background:var(--accent-soft);border-radius:10px;padding:18px 20px;display:grid;gap:8px}
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:500 .95rem/1 var(--display);text-decoration:none;padding:12px 16px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--ground)}
+.btn:hover{border-color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:16px;display:grid;gap:4px}
+@media (max-width:620px){
+  h1{font-size:2.3rem}
+  .flow{grid-template-columns:1fr}
+  pre{font-size:13.5px;padding:16px}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Velme · Latvian <i>vēlme</i>, “wish”</span>
+    <h1>Velme</h1>
+    <p class="lede">Write the goal. The AI proposes the code. A deterministic compiler decides.</p>
+    <p class="sub">An intent-driven programming language, kids first and professional by design. You keep the part that
+      needs a person: what the program should do, and how to tell whether it does.</p>
+  </header>
+
+  <pre aria-label="Example Velme goal"><code><span class="k">goal</span> Add(a: Number, b: Number) -&gt; Number:
+    <span class="k">plan</span>: <span class="s">"Add a and b."</span>
+
+    <span class="k">check</span>:
+        - result == a + b</code></pre>
+
+  <section>
+    <h2>How it works</h2>
+    <ol class="flow">
+      <li><h3>You write typed goals</h3><p>What each goal does in plain language, which goals it may call, and the checks and examples its result must pass.</p></li>
+      <li><h3>An LLM proposes IR</h3><p>A validator accepts it or rejects it, never another LLM. The AI can't add calls or reach files, network or the clock.</p></li>
+      <li><h3>The result is locked</h3><p>Accepted code runs in a sandbox on a fixed budget. Running it again gives the same result, offline.</p></li>
+    </ol>
+  </section>
+
+  <section class="status">
+    <h2>Status</h2>
+    <p>The v0.1 specification is complete and the workspace is in place. Implementation is starting; nothing is usable yet.
+      Watch the repo for releases, or read the devlogs in Announcements.</p>
+  </section>
+
+  <nav class="links" aria-label="Project links">
+    <a class="btn primary" href="https://github.com/velme-lang/velme">GitHub</a>
+    <a class="btn" href="https://github.com/velme-lang/velme/blob/main/docs/spec/SPEC.md">Specification</a>
+    <a class="btn" href="https://github.com/velme-lang/velme/discussions/categories/announcements">Devlogs</a>
+    <a class="btn" href="https://github.com/velme-lang/velme/discussions">Discussions</a>
+  </nav>
+
+  <footer>
+    <p>Code MIT OR Apache-2.0; spec and docs CC BY 4.0.</p>
+    <p>Velme™ and the Velme logo are trademarks and not licensed by these.</p>
+  </footer>
+</main>
+</body>
+</html>
