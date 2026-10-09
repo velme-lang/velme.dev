@@ -54,6 +54,7 @@ header>*{grid-column:1}
 .lede{font-size:1.25rem;max-width:34ch}
 .sub{color:var(--muted);max-width:60ch}
 pre{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:20px 22px;overflow-x:auto;font:15px/1.6 var(--mono);border:1px solid var(--line)}
+.status code{font:.92em var(--mono)}
 .k{color:var(--code-key)} .s{color:var(--code-str)} .d{color:var(--code-dim)}
 section{display:grid;gap:20px}
 .flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:n}
@@ -107,10 +108,13 @@ footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padd
   </section>
 
   <section class="status">
-    <img class="pose" src="assets/mascot/velme-sleeping.svg" alt="" height="72">
+    <img class="pose" src="assets/mascot/velme-excited.svg" alt="" height="72">
     <h2>Status</h2>
-    <p>The v0.1 specification is complete and the workspace is in place. Implementation is starting; nothing is usable yet.
-      Watch the repo for releases, or read the devlogs in Announcements.</p>
+    <p>The first alpha, <a href="https://github.com/velme-lang/velme/releases/tag/v0.1.0-alpha.1">v0.1.0-alpha.1</a>,
+      shipped on 2 October 2026. The <code>velme</code> command checks, builds, tests, runs, traces and explains programs,
+      on a reference interpreter or a sandboxed WASM backend. Every example ships with its lock, so it runs with no API key.
+      It's early: nothing is on crates.io yet, and you install it from the repo with <code>cargo install</code>.
+      Work now is on making AI replies cheaper and more reliable.</p>
   </section>
 
   <nav class="links" aria-label="Project links">
